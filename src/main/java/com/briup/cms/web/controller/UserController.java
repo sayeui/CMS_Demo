@@ -2,17 +2,50 @@ package com.briup.cms.web.controller;
 
 
 import com.briup.cms.bean.User;
+import com.briup.cms.bean.extend.UserExtend;
+import com.briup.cms.service.IUserService;
+import com.briup.cms.utils.CustomerException;
 import com.briup.cms.utils.Message;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.briup.cms.utils.MessageUtil;
+import com.briup.cms.vm.UserVM;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @PostMapping("login")
-    public Message<User> login(){
+    @Autowired
+    IUserService service;
 
-        return null;
+    @PostMapping("login")
+    @ApiOperation("用户登录逻辑")
+    public Message<?> login(@RequestBody UserVM userVM, HttpSession session) throws CustomerException {
+        // 用户名密码校验
+        service.login(userVM.getUsername(), userVM.getPassword());
+        // 校验通过后生成token（UUID，未加密）
+        String token = UUID.randomUUID().toString().replaceAll("-", "");
+        // 将token与username关联并放到session中
+        session.getServletContext().setAttribute(token,userVM.getUsername());
+        // 封装成Message的Date
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token",token);
+        // 返回Message对象
+        return MessageUtil.success(map);
+    }
+    @GetMapping("info")
+    public Message<?> info(String token,HttpSession session) throws CustomerException {
+        // 通过token获取Username
+        String username = (String) session.getServletContext().getAttribute(token);
+        if (username == null) throw new CustomerException("该Token不存在或已失效");
+        // 通过username查User
+        User user = service.selectByUsername(username);
+        UserExtend userExtend = service.selectById(user.getId());
+        // 封装
+        return MessageUtil.success(userExtend);
     }
 }
