@@ -48,4 +48,24 @@ public class UserController {
         // 封装
         return MessageUtil.success(userExtend);
     }
+    @PostMapping("logout")
+    public Message logout(@RequestHeader("X-Token") String token,HttpSession session){
+        session.getServletContext().removeAttribute(token);
+        return MessageUtil.success("success!");
+    }
+
+    @GetMapping("cascadeRoleFindAll")
+    public Message cascadeRoleFindAll(){
+        return MessageUtil.success(service.cascadeRoleFindAll());
+    }
+    @PostMapping("saveOrUpdate")
+    public Message saveOrUpdate(User user){
+        service.saveOrUpdate(user);
+        return MessageUtil.success("success");
+    }
+    @GetMapping("deleteById")
+    public Message deleteById(long id){
+        service.deleteById(id);
+        return MessageUtil.success("success");
+    }
 }

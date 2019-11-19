@@ -15,5 +15,12 @@
     SELECT *
     FROM CMS_USER
     WHERE ID = #{id}
+    AND status = 'active'
   </select>
+  <select id="cascadeRoleFindAll" resultMap="UserExtendResultMap">
+    SELECT *
+    FROM CMS_USER
+    where status = 'active'
+  </select>
+
 </mapper>
