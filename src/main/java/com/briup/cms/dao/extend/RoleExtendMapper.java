@@ -8,4 +8,5 @@ import java.util.List;
 public interface RoleExtendMapper {
     List<Role> selectByUserId(long id);
     RoleExtend selectById(long id);
+    List<RoleExtend> selectAll();
 }

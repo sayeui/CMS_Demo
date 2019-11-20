@@ -68,4 +68,9 @@ public class UserController {
         service.deleteById(id);
         return MessageUtil.success("success");
     }
+    @PostMapping("setRoles")
+    public Message setRoles(){
+        //todo
+        return MessageUtil.success("success!");
+    }
 }

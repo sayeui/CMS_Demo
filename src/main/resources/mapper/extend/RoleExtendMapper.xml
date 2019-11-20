@@ -19,4 +19,8 @@
     FROM cms_role
     WHERE id = #{id}
   </select>
+    <select id="selectAll" resultMap="RoleExtendResultMap">
+      SELECT id,name
+      FROM cms_role
+    </select>
 </mapper>

@@ -8,4 +8,8 @@
     WHERE p.id = rp.privilege_id
     AND rp.role_id = #{id}
   </select>
+  <delete id="deleteByRoleId" parameterType="long">
+    DELETE FROM cms_role_privilege
+    WHERE role_id = #{id}
+  </delete>
 </mapper>
