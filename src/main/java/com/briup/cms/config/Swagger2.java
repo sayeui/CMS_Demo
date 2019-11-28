@@ -20,14 +20,14 @@ public class Swagger2 {
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.briup.cms.web.controller"))
-				.paths(PathSelectors.any())
+				.paths(PathSelectors.none())
 				.build();
 	}
 	
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("信息管理系统")
-				.version("1.0")
+				.title("撒野Blogs后台管理系统")
+				.version("1.5")
 				.build();
 	}
 }

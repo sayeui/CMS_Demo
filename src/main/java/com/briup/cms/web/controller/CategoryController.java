@@ -53,20 +53,21 @@ public class CategoryController {
     @PostMapping("/saveOrUpdate")
     @ApiOperation("保存或更新栏目")
     @ApiImplicitParams({
-       @ApiImplicitParam(name = "categoryId", value = "栏目ID", paramType = "form"),
+       @ApiImplicitParam(name = "id", value = "栏目ID", paramType = "form"),
        @ApiImplicitParam(name = "name", value = "栏目名字", paramType = "form", required = true),
        @ApiImplicitParam(name = "description", value = "栏目描述", paramType = "form"),
        @ApiImplicitParam(name = "parentId", value = "父栏目", paramType = "form"),
     })
-    public Message<?> saveOrUpdate(Long categoryId,
+    public Message<?> saveOrUpdate(Long id,
                                    @NotNull String name,
                                    String description,
                                    Long parentId) throws CustomerException {
         Category category = new Category();
-        category.setId(categoryId);
+        category.setId(id);
         category.setName(name);
         category.setDescription(description);
         category.setParentId(parentId);
+        System.out.println("=============="+category.getId());
         service.saveOrUpdate(category);
         return MessageUtil.success("保存或更新成功", category);
     }
